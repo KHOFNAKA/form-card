@@ -14,13 +14,19 @@ const FlashcardForm = () => {
   const [currentTag, setCurrentTag] = useState('');
 
   const cardTypes = [
-    { value: 'education', label: 'آموزش' },
-    { value: 'reminder', label: 'یادآور' },
-    { value: 'exercise', label: 'تمرین' },
-    { value: 'fun', label: 'فان' }
+    { value: 'education', label: 'آموزش', color: 'primary', icon: '📚' },
+    { value: 'reminder', label: 'یادآور', color: 'warning', icon: '⏰' },
+    { value: 'exercise', label: 'تمرین', color: 'success', icon: '💪' },
+    { value: 'fun', label: 'فان', color: 'info', icon: '🎉' }
   ];
 
-  const priorities = [1, 2, 3, 4, 5];
+  const priorities = [
+    { value: 1, label: 'خیلی کم', color: 'secondary' },
+    { value: 2, label: 'کم', color: 'info' },
+    { value: 3, label: 'متوسط', color: 'primary' },
+    { value: 4, label: 'مهم', color: 'warning' },
+    { value: 5, label: 'فوری', color: 'danger' }
+  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -106,11 +112,9 @@ const FlashcardForm = () => {
                   onChange={handleInputChange}
                   required
                 >
-                  <option value="">نوع کارت را انتخاب کنید</option>
+                  <option value="">انتخاب کنید</option>
                   {cardTypes.map(type => (
-                    <option key={type.value} value={type.value}>
-                      {type.label}
-                    </option>
+                    <option key={type.value} value={type.value}>{type.icon} {type.label}</option>
                   ))}
                 </select>
               </div>
@@ -125,11 +129,9 @@ const FlashcardForm = () => {
                   onChange={handleInputChange}
                   required
                 >
-                  <option value="">اولویت را انتخاب کنید</option>
+                  <option value="">انتخاب کنید</option>
                   {priorities.map(priority => (
-                    <option key={priority} value={priority}>
-                      {priority}
-                    </option>
+                    <option key={priority.value} value={priority.value}>{priority.label}</option>
                   ))}
                 </select>
               </div>

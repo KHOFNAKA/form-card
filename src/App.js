@@ -1,4 +1,4 @@
-import FlashcardForm from "./component/form";
+import FlashcardForm from "./components/form";
 
 function App() {
   return (
