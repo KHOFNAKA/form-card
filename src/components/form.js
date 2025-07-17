@@ -76,6 +76,18 @@ const FlashcardForm = () => {
     }
   };
 
+  const getSelectedTypeInfo = () => {
+    return cardTypes.find(type => type.value === formData.type);
+  };
+
+  const getSelectedPriorityInfo = () => {
+    return priorities.find(priority => priority.value === parseInt(formData.priority));
+  };
+
+  const isFormValid = () => {
+    return formData.title.trim() && formData.description.trim() && formData.type && formData.priority;
+  };
+
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center" 
          style={{ background: 'linear-gradient(135deg, #6b7280 0%, #374151 100%)', padding: '20px', direction: 'rtl', textAlign: 'right' }}>
@@ -129,6 +141,13 @@ const FlashcardForm = () => {
                     <option key={type.value} value={type.value}>{type.icon} {type.label}</option>
                   ))}
                 </select>
+                {formData.type && (
+                  <div className="mt-2">
+                    <span className={`badge bg-${getSelectedTypeInfo()?.color} px-3 py-2`} style={{ fontSize: '14px', borderRadius: '8px' }}>
+                      {getSelectedTypeInfo()?.icon} {getSelectedTypeInfo()?.label}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="mb-3">
@@ -146,6 +165,13 @@ const FlashcardForm = () => {
                     <option key={priority.value} value={priority.value}>{priority.label}</option>
                   ))}
                 </select>
+                {formData.priority && (
+                  <div className="mt-2">
+                    <span className={`badge bg-${getSelectedPriorityInfo()?.color} px-3 py-2`} style={{ fontSize: '14px', borderRadius: '8px' }}>
+                      {'⭐'.repeat(parseInt(formData.priority))} {getSelectedPriorityInfo()?.label}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="mb-3">
@@ -192,9 +218,9 @@ const FlashcardForm = () => {
               <div className="d-grid">
                 <button 
                   type="button" 
-                  className="btn btn-success btn-lg"
+                  className={`btn btn-lg ${isFormValid() ? 'btn-success' : 'btn-secondary'}`}
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={!isFormValid() || isSubmitting}
                 >
                   {isSubmitting ? (
                     <>
@@ -206,6 +232,22 @@ const FlashcardForm = () => {
                   )}
                 </button>
               </div>
+
+              {isFormValid() && (
+                <div className="mt-4 p-3 bg-white rounded-3 shadow-sm border-end border-5 border-primary">
+                  <h6 className="text-muted mb-2">📋 پیش نمایش کارت:</h6>
+                  <h5 className="mb-2">{formData.title}</h5>
+                  <p className="text-muted small mb-2">{formData.description}</p>
+                  <div className="d-flex gap-2 flex-wrap">
+                    {getSelectedTypeInfo() && (
+                      <span className={`badge bg-${getSelectedTypeInfo().color}`}>{getSelectedTypeInfo().icon} {getSelectedTypeInfo().label}</span>
+                    )}
+                    {getSelectedPriorityInfo() && (
+                      <span className={`badge bg-${getSelectedPriorityInfo().color}`}>{'⭐'.repeat(parseInt(formData.priority))} {getSelectedPriorityInfo().label}</span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
