@@ -12,6 +12,7 @@ const FlashcardForm = () => {
   });
 
   const [currentTag, setCurrentTag] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cardTypes = [
     { value: 'education', label: 'آموزش', color: 'primary', icon: '📚' },
@@ -53,8 +54,19 @@ const FlashcardForm = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 1500));
     console.log('Form submitted:', formData);
+    setFormData({
+      title: '',
+      description: '',
+      type: '',
+      priority: '',
+      tags: []
+    });
+    setIsSubmitting(false);
+    alert('کارت اطلاعاتی با موفقیت ثبت شد!');
   };
 
   const handleKeyPress = (e) => {
@@ -178,8 +190,20 @@ const FlashcardForm = () => {
               </div>
 
               <div className="d-grid">
-                <button type="button" className="btn btn-success btn-lg" onClick={handleSubmit}>
-                  ثبت کارت اطلاعاتی
+                <button 
+                  type="button" 
+                  className="btn btn-success btn-lg"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" />
+                      در حال ثبت...
+                    </>
+                  ) : (
+                    'ثبت کارت اطلاعاتی'
+                  )}
                 </button>
               </div>
             </div>
